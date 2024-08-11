@@ -1,0 +1,21 @@
+/*
+ * Copyright (C) 2015 GuangZhou Tronlong co., LTD - http://www.tronlong.com
+ *
+ * This program is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License version 2 as
+ * published by the Free Software Foundation.
+ */
+
+/dts-v1/;
+
+#include "tlimx8mp-evm.dts"
+
+/ {
+	model = "TLIMX8MP-EVM HDMI 4G";
+};
+
+&pcie {
+	/delete-property/ rm500q-reset-gpio;
+	/delete-property/ rm500q-power-off;
+	/delete-property/ pcie-clkreq;
+};

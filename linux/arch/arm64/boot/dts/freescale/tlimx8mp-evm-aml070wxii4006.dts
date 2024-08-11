@@ -1,0 +1,80 @@
+/*
+ * Copyright (C) 2015 GuangZhou Tronlong co., LTD - http://www.tronlong.com
+ *
+ * This program is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License version 2 as
+ * published by the Free Software Foundation.
+ */
+
+/dts-v1/;
+
+#include "tlimx8mp-evm.dts"
+
+/ {
+	model = "TLIMX8MP-EVM MIPI Panel AML070WXII4006";
+
+	mipi_dsi_backlight: mipi_dsi_backlight {
+		compatible = "pwm-backlight";
+		pwms = <&pwm2 0 100000>;
+		status = "okay";
+		brightness-levels = <0 100>;
+		num-interpolated-steps = <100>;
+		default-brightness-level = <100>;
+	};
+};
+
+&pwm2 {
+	pinctrl-names = "default";
+	pinctrl-0 = <&pinctrl_pwm2>;
+	status = "okay";
+};
+
+&mipi_dsi {
+	status = "okay";
+
+	panel@0 {
+		compatible = "amelin,aml070wxii4006";
+		reg = <0>;
+		pinctrl-names = "default";
+		pinctrl-0 = <&pinctrl_mipi_lcd_rst>;
+		reset-gpio = <&gpio5 20 GPIO_ACTIVE_HIGH>;
+		backlight = <&mipi_dsi_backlight>;
+		status = "okay";
+	};
+};
+
+&i2c3 {
+	status = "okay";
+
+	gt911@5d {
+		pinctrl-names = "default";
+		pinctrl-0 = <&pinctrl_gt911>;
+
+		compatible = "goodix,gt911";
+		reg = <0x5d>;
+		interrupt-parent = <&gpio1>;
+		interrupts = <13 0>;
+		irq-gpios = <&gpio1 13 0>;
+	};
+};
+
+&iomuxc {
+	pinctrl_pwm2: pwm2grp {
+		fsl,pins = <
+			MX8MP_IOMUXC_GPIO1_IO09__PWM2_OUT		0x116
+		>;
+	};
+
+	pinctrl_mipi_lcd_rst: mipi_lcd_rst {
+		fsl,pins = <
+			MX8MP_IOMUXC_I2C4_SCL__GPIO5_IO20		0x00000106	/* RST */
+		>;
+	};
+
+	pinctrl_gt911: pinctrl_gt911grp {
+		fsl,pins = <
+			MX8MP_IOMUXC_GPIO1_IO13__GPIO1_IO13		0x00000146	/* INT */
+			MX8MP_IOMUXC_I2C4_SDA__GPIO5_IO21		0x00000106	/* RST */
+		>;
+	};
+};
