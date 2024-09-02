@@ -30,6 +30,11 @@
 			reg = <0 0x55800000 0 0x800000>;
 		};
 	};
+	
+	dma_memory {
+		status = "okay";
+		compatible = "dma_memcpy";
+	};
 
 	leds {
 		compatible = "gpio-leds";
