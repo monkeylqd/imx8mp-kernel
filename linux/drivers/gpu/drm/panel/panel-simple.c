@@ -4564,8 +4564,31 @@ static const struct panel_desc g104x1_l04 = {
 	.bus_format = MEDIA_BUS_FMT_RGB888_1X7X4_SPWG,
 };
 
+static const struct drm_display_mode gs_1280x800_mode = {
+	.clock		= 72400,
+	.hdisplay	= 1280,
+	.hsync_start	= 1280 + 80,
+	.hsync_end	= 1280 + 80 + 79,
+	.htotal 	= 1280 + 80 + 79 + 1,
+	.vdisplay	= 800,
+	.vsync_start	= 800 + 14,
+	.vsync_end	= 800 + 14 + 15,
+	.vtotal 	= 800 + 14 + 15 + 9,
+	.flags		= DRM_MODE_TYPE_DRIVER | DRM_MODE_TYPE_PREFERRED,
+};
+
+static const struct panel_desc gs_1280x800 = {
+	.modes = &gs_1280x800_mode,
+	.num_modes = 1,
+	.bpc = 8,
+	.bus_format = MEDIA_BUS_FMT_RGB888_1X7X4_SPWG,
+};
+
 static const struct of_device_id platform_of_match[] = {
 	{
+		.compatible = "gs,1280x800",
+		.data = &gs_1280x800,
+	}, {
 		.compatible = "innolux,g104x1-l04",
 		.data = &g104x1_l04,
 	}, {
